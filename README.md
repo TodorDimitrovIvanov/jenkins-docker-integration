@@ -1,4 +1,4 @@
-# How to setup 
+# How to setup? 
 ## Terraform
 This is the middleware that connects to AWS and deploys the EC2 instance. To run it, we simply have to execute the following commands:
 ```
@@ -11,3 +11,4 @@ To setup Jenkins on the EC2 instance we first need to retrieve its IP Address or
 ```
 ansible-playbook -e "ec2_address=___IP____" example_playbook.yml
 ```
+# What does it do? 
