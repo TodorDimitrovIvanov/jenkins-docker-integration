@@ -1,0 +1,24 @@
+---
+- name: Jenkins setup
+  hosts: {{ ec2_address }}
+  # Become sudo
+  become: true 
+  tasks:
+    - name: Install Java 
+      apt: 
+        name: openjdk-11-jdk
+        state: present
+    - name: Add Jenkins Debian repo key
+      apt_key: 
+        url: https://pkg.jenkins.io/debian/jenkins.io.key
+        state: present 
+    - name: Install Jenkins 
+      apt: 
+        name: jenkins
+        state: present
+    - name: Start Jenkins 
+      service:
+        name: jenkins 
+        state: started
+        enabled: yes
+
