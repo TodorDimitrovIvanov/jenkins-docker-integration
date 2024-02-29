@@ -1,5 +1,6 @@
 keys/
 .terraform/
 .terraform*
+terraform*
 .vscode/
 .vscode*

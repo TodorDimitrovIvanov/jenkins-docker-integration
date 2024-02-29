@@ -8,9 +8,9 @@ resource "aws_key_pair" "ec2_pub_key"{
 }
 
 resource "aws_instance" "jenkins-master" {
-  ami = "ami-0c55b159cbfafe1f0"
+  ami = "ami-042e6fdb154c830c5"
   instance_type = "t2.micro"
-  key_name = "aws_key_pair.ec2_pub_key"
+  key_name = aws_key_pair.ec2_pub_key.key_name
 
   tags = {
     Name = "jenkins-example"
