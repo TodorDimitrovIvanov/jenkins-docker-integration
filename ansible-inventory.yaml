@@ -1,0 +1,7 @@
+---
+webservers: 
+  hosts:
+    EC2-PLACEHOLDER
+  vars: 
+    ansible_user: admin  
+    ansible_become_user: root

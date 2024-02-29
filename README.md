@@ -1,4 +1,9 @@
 # How to setup? 
+## Quicksetup
+Run the following command:
+```
+terraform apply -auto-approve; host_ip=$(tf output -raw ec2_instance_hostname); sed -i "s/EC2-PLACEHOLDER/$host_ip/g" ansible-inventory.yaml; ansible-playbook jenkins-setup.yaml -i ansible-inventory.yaml
+```
 ## Terraform
 This is the middleware that connects to AWS and deploys the EC2 instance. To run it, we simply have to execute the following commands:
 ```
@@ -7,8 +12,11 @@ terraform plan
 terraform apply 
 ```
 ## Ansible 
-To setup Jenkins on the EC2 instance we first need to retrieve its IP Address or Hostname from the Terraform output and replace it in the following script
+To setup Jenkins on the EC2 instance we first need to retrieve its IP Address or Hostname from the Terraform output and replace it in the ansible inventory
 ```
-ansible-playbook -e "ec2_address=___IP____" example_playbook.yml
+sed -i 's/EC2-PLACEHOLDER/_____IP_____/g'
+```
+```
+ansible-playbook -e "ec2_address=____IP____" jenkins-setup.yaml
 ```
 # What does it do? 
