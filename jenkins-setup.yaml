@@ -10,13 +10,21 @@
     - name: Apt Update
       apt: 
         update_cache: yes
+    - name: Install gnupg
+      apt: 
+        name: gnupg
+        state: present 
     - name: Install Java 
       apt: 
         name: openjdk-17-jdk
         state: present
     - name: Add Jenkins Debian repo key
       apt_key: 
-        url: https://pkg.jenkins.io/debian/jenkins.io.key
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+        state: present
+    - name: Add Jenkins Debian repository
+      apt_repository:
+        repo: deb https://pkg.jenkins.io/debian-stable binary/
         state: present 
     - name: Install Jenkins 
       apt: 

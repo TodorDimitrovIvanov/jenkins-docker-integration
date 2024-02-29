@@ -16,7 +16,8 @@ To setup Jenkins on the EC2 instance we first need to retrieve its IP Address or
 ```
 sed -i 's/EC2-PLACEHOLDER/_____IP_____/g'
 ```
+And then start the process with: 
 ```
-ansible-playbook -e "ec2_address=____IP____" jenkins-setup.yaml
+ansible-playbook jenkins-setup.yaml -i ansible-inventory.yaml
 ```
 # What does it do? 
