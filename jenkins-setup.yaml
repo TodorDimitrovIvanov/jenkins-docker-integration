@@ -1,7 +1,7 @@
 ---
 - name: Jenkins setup
   hosts: 
-    webservers
+    jenkins
   # Become sudo
   become: true 
   vars:

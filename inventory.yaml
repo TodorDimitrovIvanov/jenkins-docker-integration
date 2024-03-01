@@ -1,0 +1,13 @@
+---
+jenkins: 
+  hosts:
+    JENKINS-PLACEHOLDER
+  vars: 
+    ansible_user: admin  
+    ansible_become_user: root
+docker:
+  hosts:
+    DOCKER-PLACEHOLDER
+  vars: 
+    ansible_user: admin  
+    ansible_become_user: root
