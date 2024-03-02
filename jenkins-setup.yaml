@@ -40,4 +40,9 @@
         name: jenkins 
         state: started
         enabled: yes
+    - name: Retrieve Jenkins password 
+      command: cat /var/lib/jenkins/secrets/initialAdminPassword
+      register: command_output
+    - name: Print Jenkins password
+      debug: msg = "{{command_output.stdout}}"
 

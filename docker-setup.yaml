@@ -51,7 +51,7 @@
         name: docker
         state: reloaded
 
-    - name: Start Jenkins 
+    - name: Start Docker
       service:
         name: docker 
         state: started

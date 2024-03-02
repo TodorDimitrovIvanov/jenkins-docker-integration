@@ -21,7 +21,7 @@ terraform plan (Optional preview)
 terraform apply 
 ```
 ## Ansible 
-For the setup of Jenkins and Docker we first need to retrieve both EC2 instances' hostnames from the Terraform output and place then in the ansible inventory
+This is the configuration management tool that's responsible for setting up the CI/CD pipeline and containers. For the setup of Jenkins and Docker we first need to retrieve both EC2 instances' hostnames from the Terraform output and place then in the ansible inventory
 ```
 sed -i 's/JENKINS-PLACEHOLDER/_____HOST_____/g' inventory.yaml
 ```
@@ -36,6 +36,7 @@ ansible-playbook jenkins-setup.yaml -i inventory.yaml
 ansible-playbook docker-setup.yaml -i inventory.yaml
 ```
 ## Jenkins 
+This is the automation server that will build new versions of the NodeJS app
 * After the Ansible play is completed, it will print the Jenkins admin password - be sure to change it. Then we login and install the following Jenkins plugins: 
   * Docker
   * Docker Pipeline
