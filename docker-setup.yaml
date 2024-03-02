@@ -1,0 +1,58 @@
+---
+- name: Docker setup
+  hosts: 
+    docker
+  # Become sudo
+  become: true 
+  vars:
+    ansible_ssh_private_key_file: keys/ec2_key
+  tasks:
+    - name: Apt Update
+      apt: 
+        update_cache: yes
+    - name: Install gnupg
+      apt: 
+        name: gnupg
+        state: present 
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+    - name: Configure Docker 
+      ansible.builtin.lineinfile:
+        path: /usr/lib/systemd/system/docker.service
+        regexp: "ExecStart="
+        line: "ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 --containerd=/run/containerd/containerd.sock"
+        # This gurantees that the file won't be changed if regex doesn't match
+        backrefs: yes
+    - name: Reload service httpd, in all cases
+      service:
+        name: docker
+        state: reloaded
+
+    - name: Start Jenkins 
+      service:
+        name: docker 
+        state: started
+        enabled: yes

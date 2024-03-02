@@ -8,3 +8,10 @@ module "setup" {
   jenkins_sec_grp = module.setup.jenkins_sec_grp
 }
 
+output "jenkins_host" {
+    value = "${module.setup.ec2_instance_hostname}"
+}
+
+output "docker_host" {
+    value = "${module.setup.docker_hostname}"
+}

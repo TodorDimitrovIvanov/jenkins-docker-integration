@@ -9,6 +9,12 @@ resource "aws_security_group" "incoming_docker_access" {
     protocol    = "tcp"
     security_groups = ["${var.jenkins_sec_grp}"]
   }
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Allow SSH from any IP address (make sure to restrict this in production)
+  }
 }
 
 resource "aws_instance" "docker-runner" {
