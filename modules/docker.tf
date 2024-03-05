@@ -18,7 +18,7 @@ resource "aws_security_group" "incoming_docker_access" {
 }
 
 resource "aws_instance" "docker-runner" {
-  ami = "ami-042e6fdb154c830c5"
+  ami = "${var.ami["debian"]}"
   instance_type = "t2.micro"
   key_name = aws_key_pair.ec2_pub_key.key_name
 
@@ -27,10 +27,6 @@ resource "aws_instance" "docker-runner" {
 
 output "docker_hostname" {
   value = aws_instance.docker-runner.public_dns
-}
-
-variable "jenkins_ip" {
-  type = string
 }
 
 variable jenkins_sec_grp {
