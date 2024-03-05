@@ -42,6 +42,7 @@ resource "aws_instance" "grafana-ec2" {
   ami = "${var.ami["debian"]}"
   instance_type = "t2.micro"
   key_name = aws_key_pair.ec2_pub_key.key_name
+  vpc_security_group_ids = [aws_security_group.grafana_sec_grp.id]
 }
 
 variable prometheus_sec_grp {

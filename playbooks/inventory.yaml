@@ -5,13 +5,13 @@ all:
     ansible_become_user: root
 jenkins: 
   hosts:
-    JENKINS-PLACEHOLDER
+    ec2-54-93-124-68.eu-central-1.compute.amazonaws.com
 docker:
   hosts:
-    DOCKER-PLACEHOLDER
+    ec2-54-93-124-68.eu-central-1.compute.amazonaws.com
 grafana:
   hosts:
-    GRAFANA-PLACEHOLDER
+    ec2-3-79-99-247.eu-central-1.compute.amazonaws.com
 prometheus:
   hosts:
-    PROMETHEUS-PLACEHOLDER
+    ec2-18-197-107-54.eu-central-1.compute.amazonaws.com

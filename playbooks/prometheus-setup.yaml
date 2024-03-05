@@ -10,12 +10,29 @@
     - name: Apt Update
       apt: 
         update_cache: yes
-    - name: Install wget and unzip
-      apt: 
-        name: 
-          - wget 
-          - unzip 
+    - name: Create group
+      group:
+        name: prometheus 
         state: present
+    - name: Create user
+      user:
+        name: prometheus 
+        state: present
+        group: prometheus
+    - name: Create Prometheus directory has correct permissions
+      file:
+        path: "/etc/prometheus"
+        owner: prometheus
+        group: prometheus
+        state: directory
+        mode: "0755"
+    - name: Create Prometheus directory has correct permissions
+      file:
+        path: "/var/lib/prometheus"
+        owner: prometheus
+        group: prometheus
+        state: directory
+        mode: "0755"
     - name: Download Prometheus binary
       get_url:
         url: "https://github.com/prometheus/prometheus/releases/download/v2.30.3/prometheus-2.30.3.linux-amd64.tar.gz"
@@ -24,22 +41,17 @@
     - name: Extract Prometheus binary
       unarchive:
         src: "/tmp/prometheus.tar.gz"
-        dest: "/opt/"
+        dest: "/etc/prometheus/"
         remote_src: yes
         extra_opts: [--strip-components=1]
-    - name: Ensure Prometheus directory permissions
-      file:
-        path: "/opt/prometheus"
-        state: directory
-        mode: "0755"
     - name: Upload Prometheus service file
       copy:
-        src: playbooks/files/prometheus.service
+        src: prometheus.service
         dest: /etc/systemd/system/prometheus.service
     - name: Upload Prometheus configuration file
       copy:
-        src: playbooks/files/prometheus.yaml
-        dest: /opt/prometheus/prometheus.yml
+        src: prometheus.yaml
+        dest: /etc/prometheus/prometheus.yml
     - name: Reload systemd
       systemd:
         daemon_reload: yes
