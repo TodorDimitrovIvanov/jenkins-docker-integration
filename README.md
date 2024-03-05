@@ -11,7 +11,7 @@ Containereztion: Docker
 ## Quicksetup
 Run the following one-liner:
 ```
-terraform init; terraform apply -auto-approve; jenkins_ip=$(tf state show module.setup.aws_instance.jenkins-master | grep "public_dns" | awk '{printf $3}' | sed 's/"//g'); docker_ip=$(tf state show module.setup.aws_instance.docker-runner | grep "public_dns" | awk '{printf $3}' | sed 's/"//g'); sed -i "s/JENKINS-PLACEHOLDER/$jenkins_ip/g" ansible-inventory.yaml; sed -i "s/DOCKER-PLACEHOLDER/$docker_ip/g" ansible-inventory.yaml; ansible-playbook jenkins-setup.yaml -i inventory.yaml; ansible-playbook docker-setup.yaml -i inventory.yaml
+terraform init; terraform apply -auto-approve; jenkins_ip=$(tf state show module.setup.aws_instance.jenkins-master | grep "public_dns" | awk '{printf $3}' | sed 's/"//g'); docker_ip=$(tf state show module.setup.aws_instance.docker-runner | grep "public_dns" | awk '{printf $3}' | sed 's/"//g'); sed -i "s/JENKINS-PLACEHOLDER/$jenkins_ip/g" playbooks/inventory.yaml; sed -i "s/DOCKER-PLACEHOLDER/$docker_ip/g" playbooks/inventory.yaml; ansible-playbook playbooks/jenkins-setup.yaml -i playbooks/inventory.yaml; ansible-playbook playbooks/docker-setup.yaml -i iplaybooks/nventory.yaml
 ```
 ## Terraform
 This is the middleware that connects to AWS and provisions the EC2 instances. To run it, we simply have to execute the following commands:
@@ -23,17 +23,17 @@ terraform apply
 ## Ansible 
 This is the configuration management tool that's responsible for setting up the CI/CD pipeline and containers. For the setup of Jenkins and Docker we first need to retrieve both EC2 instances' hostnames from the Terraform output and place then in the ansible inventory
 ```
-sed -i 's/JENKINS-PLACEHOLDER/_____HOST_____/g' inventory.yaml
+sed -i 's/JENKINS-PLACEHOLDER/_____HOST_____/g' iplaybooks/nventory.yaml
 ```
 ```
-sed -i 's/DOCKER-PLACEHOLDER/_____HOST_____/g' inventory.yaml
+sed -i 's/DOCKER-PLACEHOLDER/_____HOST_____/g' playbooks/inventory.yaml
 ```
 Then we can start the configuration process with:  
 ```
-ansible-playbook jenkins-setup.yaml -i inventory.yaml
+ansible-playbook playbooks/jenkins-setup.yaml -i playbooks/inventory.yaml
 ```
 ```
-ansible-playbook docker-setup.yaml -i inventory.yaml
+ansible-playbook playbooks/docker-setup.yaml -i playbooks/inventory.yaml
 ```
 ## Jenkins 
 This is the automation server that will build new versions of the NodeJS app
