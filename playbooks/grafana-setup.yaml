@@ -1,0 +1,37 @@
+---
+- name: Grafana setup
+  hosts: 
+    grafana
+  # Become sudo
+  become: true 
+  vars:
+    ansible_ssh_private_key_file: keys/ec2_key
+  tasks:
+    - name: Apt Update
+      apt: 
+        update_cache: yes
+    - name: Install gnupg
+      apt: 
+        name: gnupg
+        state: present 
+    - name: Install software-properties-common
+      apt: 
+        name: software-properties-common
+        state: present
+    - name: Add Grafana repo key
+      apt_key: 
+        url: https://packages.grafana.com/gpg.key
+        state: present
+    - name: Add Grafana Debian repository
+      apt_repository:
+        repo: deb https://packages.grafana.com/oss/deb stable main
+        state: present
+    - name: Install Grafana
+      apt: 
+        name: grafana
+        state: present
+    - name: Start Grafana 
+      service:
+        name: grafana-server 
+        state: started
+        enabled: yes

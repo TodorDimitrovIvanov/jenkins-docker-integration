@@ -1,0 +1,53 @@
+---
+- name: Prometheus setup
+  hosts: 
+    prometheus
+  # Become sudo
+  become: true 
+  vars:
+    ansible_ssh_private_key_file: keys/ec2_key
+  tasks:
+    - name: Apt Update
+      apt: 
+        update_cache: yes
+    - name: Install wget and unzip
+      apt: 
+        name: 
+          - wget 
+          - unzip 
+        state: present
+    - name: Download Prometheus binary
+      get_url:
+        url: "https://github.com/prometheus/prometheus/releases/download/v2.30.3/prometheus-2.30.3.linux-amd64.tar.gz"
+        dest: "/tmp/prometheus.tar.gz"
+        mode: '0755'
+    - name: Extract Prometheus binary
+      unarchive:
+        src: "/tmp/prometheus.tar.gz"
+        dest: "/opt/"
+        remote_src: yes
+        extra_opts: [--strip-components=1]
+    - name: Ensure Prometheus directory permissions
+      file:
+        path: "/opt/prometheus"
+        state: directory
+        mode: "0755"
+    - name: Upload Prometheus service file
+      copy:
+        src: playbooks/files/prometheus.service
+        dest: /etc/systemd/system/prometheus.service
+    - name: Upload Prometheus configuration file
+      copy:
+        src: playbooks/files/prometheus.yaml
+        dest: /opt/prometheus/prometheus.yml
+    - name: Reload systemd
+      systemd:
+        daemon_reload: yes
+    - name: Start Prometheus service
+      service:
+        name: prometheus
+        state: started
+        enabled: yes
+
+
+ 
