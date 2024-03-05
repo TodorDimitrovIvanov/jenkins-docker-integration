@@ -7,12 +7,13 @@ module "setup" {
   jenkins_sec_grp = module.setup.jenkins_sec_grp
   grafana_sec_grp = module.setup.grafana_sec_grp
   prometheus_sec_grp = module.setup.prometheus_sec_grp
+  ami = var.ami
 }
 
 variable "ami" {
-  type = string
+  type = map 
   default = {
-    "debian" = "ami-042e6fdb154c830c5"
+    debian = "ami-042e6fdb154c830c5"
   }
 }
 
@@ -25,9 +26,9 @@ output "docker_host" {
 }
 
 output "grafana_host" {
-  value = "${module.setup.grafana-ec2}"
+  value = "${module.setup.grafana_hostname}"
 }
 
 output "prometheus_host" {
-  value = "${module.setup.prometheus-ec2}"
+  value = "${module.setup.prometheus_hostname}"
 }

@@ -10,11 +10,11 @@ resource "aws_security_group" "grafana_sec_grp" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   # Allow all access from Prometheus EC2 instance
-  ingress = {
-    from_port = 0
-    to_port = 65535
-    protocol = "tcp"
-    security_groups = ["${var.prometheus_sec_grp}"] 
+  ingress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    security_groups = ["${var.prometheus_sec_grp}"]
   }
   # Allow all external traffic 
   egress {
@@ -35,10 +35,14 @@ variable prometheus_sec_grp {
   type = string
 }
 
-output "grafana_host" {
+output "grafana_hostname" {
   value = aws_instance.grafana-ec2.public_dns
 }
 
 output "grafana_sec_grp"{
   value = aws_security_group.grafana_sec_grp.id
+}
+
+variable "ami" {
+  type = map
 }
