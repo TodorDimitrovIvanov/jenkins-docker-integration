@@ -26,4 +26,4 @@ scrape_configs:
     metrics_path: /prometheus
     static_configs: 
       - targets:
-          - "ec2-3-68-157-16.eu-central-1.compute.amazonaws.com"
+          - "JENKINS-PLACEHOLDER:8080"

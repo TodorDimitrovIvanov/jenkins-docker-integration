@@ -6,6 +6,8 @@ Provisioning: Terraform
 Configuration management: Ansible  
 Automation server:  Jenkins  
 Containereztion: Docker  
+Data collection: Prometheus 
+Data monitoring: Grafana 
 
 # How to setup? 
 ## Quicksetup
@@ -52,6 +54,7 @@ This is the automation server that will build new versions of the NodeJS app
 * After the Ansible play is completed, it will print the Jenkins admin password - be sure to change it. Then we login and install the following Jenkins plugins: 
   * Docker
   * Docker Pipeline
+  * Prometheus Metrics
 * Next under "Manage Jenkins" select "Clouds" and "New Cloud" then "Docker" and give it a name 
 * Upload a private key for GitHub authentication as  secret under Jenkins's Credentials menu
 * Finally, set up a new pipeline job 
@@ -74,4 +77,8 @@ sed -i "s/JENKINS-PLACEHOLDER/_____HOST_____/g" playbooks/files/prometheus.yaml
 ansible-playbook playbooks/grafana-setup.yaml -i playbooks/inventory.yaml;
 ansible-playbook playbooks/prometheus-setup.yaml -i playbooks/inventory.yaml
 ```
-* 
+* After the setup is completed, Prometheus should automatically connect to Jenkins and start gathering data from it. 
+* However we still need to configure the Prometheus EC2 instance within Grafana. This is done by: 
+  * First creating a new Dashboard 
+  * Then configuring the Prometheus EC2 hostname as Data Source
+  * Adding visualization for different data
