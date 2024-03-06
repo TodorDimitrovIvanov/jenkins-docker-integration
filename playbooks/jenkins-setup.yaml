@@ -30,11 +30,6 @@
       apt: 
         name: jenkins
         state: present
-    - name: Adding Jenkins user to Docker group
-      user: 
-        name: jenkins
-        groups: docker
-        append: yes
     - name: Start Jenkins 
       service:
         name: jenkins 

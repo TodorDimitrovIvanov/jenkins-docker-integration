@@ -11,14 +11,8 @@ resource "aws_security_group" "prometheus_sec_grp" {
   }
   # Allow web access for dev purposes (change to internal network in prod)
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress {
-    from_port   = 443
-    to_port     = 443
+    from_port   = 9090
+    to_port     = 9090
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

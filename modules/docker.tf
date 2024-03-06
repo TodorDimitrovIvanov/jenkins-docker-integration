@@ -15,6 +15,12 @@ resource "aws_security_group" "incoming_docker_access" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]  # Allow SSH from any IP address (make sure to restrict this in production)
   }
+  egress{
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]  # Allow SSH from any IP address (make sure to restrict this in production)
+  }
 }
 
 resource "aws_instance" "docker-runner" {
