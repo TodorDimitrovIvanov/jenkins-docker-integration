@@ -10,9 +10,11 @@
     - name: Apt Update
       apt: 
         update_cache: yes
-    - name: Install gnupg
+    - name: Install gnupg and git
       apt: 
-        name: gnupg
+        name:
+          - gnupg
+          - git 
         state: present 
     - name: Install Java 
       apt: 
@@ -30,11 +32,6 @@
       apt: 
         name: jenkins
         state: present
-    - name: Adding Jenkins user to Docker group
-      user: 
-        name: jenkins
-        groups: docker
-        append: yes
     - name: Start Jenkins 
       service:
         name: jenkins 

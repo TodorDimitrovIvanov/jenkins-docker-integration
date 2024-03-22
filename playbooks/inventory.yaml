@@ -1,0 +1,17 @@
+---
+all:
+  vars:
+    ansible_user: admin  
+    ansible_become_user: root
+jenkins: 
+  hosts:
+    JENKINS-PLACEHOLDER
+docker:
+  hosts:
+    DOCKER-PLACEHOLDER
+grafana:
+  hosts:
+    GRAFANA-PLACEHOLDER
+prometheus:
+  hosts:
+    PROMETHEUS-PLACEHOLDER

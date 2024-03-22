@@ -5,7 +5,7 @@ resource "aws_key_pair" "ec2_pub_key"{
 }
 
 resource "aws_instance" "jenkins-master" {
-  ami = "ami-042e6fdb154c830c5"
+  ami = "${var.ami["debian"]}"
   instance_type = "t2.micro"
   key_name = aws_key_pair.ec2_pub_key.key_name
   vpc_security_group_ids = [aws_security_group.jenkins_incoming_access.id, aws_security_group.jenkins_outgoing_access.id]
